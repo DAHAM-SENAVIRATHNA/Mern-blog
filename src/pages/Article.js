@@ -1,12 +1,28 @@
-import React from 'react'
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import articleContent from './articleContent';
 
 function Article() {
+    const { name } = useParams();
+    const selectedArticle = articleContent.find((article) => article.name === name);
+
+    if (!selectedArticle) {
+        return <div>Article not found</div>;
+    }
+
+    const { title, content } = selectedArticle;
+
     return (
         <div>
-            <h1 className='sm:text-4xl text-2xl font-bold my-6 text-gray-900'>This is article</h1>
-
+            <h1 className='sm:text-4xl text-2xl font-bold my-6 text-gray-900'>{title}</h1>
+            {content.map((section, index) => (
+                <div key={index}>
+                    <h2 className='text-xl font-bold my-2'>{section.section}</h2>
+                    <p className='max-auto leading-relaxed text-base mb-4'>{section.text}</p>
+                </div>
+            ))}
         </div>
-    )
+    );
 }
 
-export default Article
+export default Article;
