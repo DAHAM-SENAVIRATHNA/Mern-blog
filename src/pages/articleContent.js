@@ -2,7 +2,7 @@ const article = [
     {
         "name": "Healthy-Diet",
         "title": "The Importance of Healthy Eating",
-        "thumbnail": "https://example.com/thumbnail.jpg",
+        "thumbnail": '/images/diet.jpg',
         "content": [
             {
                 "section": "Introduction",

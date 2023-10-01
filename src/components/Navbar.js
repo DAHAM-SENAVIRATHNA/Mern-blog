@@ -13,7 +13,7 @@ function Navbar() {
                     <Link to="/about" className='pl-6 pr-8'>About</Link>
                 </li>
                 <li className='inline-block py-4'>
-                    <Link to="/article" className='pl-6 pr-8'>Articles</Link>
+                    <Link to="/article-list" className='pl-6 pr-8'>Articles</Link>
                 </li>
             </ul>
         </nav>
