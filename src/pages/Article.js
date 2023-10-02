@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import articleContent from './articleContent';
+import Articles from '../components/Articles';
 
 function Article() {
     const { name } = useParams();
@@ -9,7 +10,7 @@ function Article() {
     if (!selectedArticle) {
         return <div>Article not found</div>;
     }
-
+    const otherArticles = articleContent.filter(article=>article.name !== name)
     const { title, thumbnail } = selectedArticle;
 
     return (
@@ -22,6 +23,11 @@ function Article() {
                     <p className='max-auto leading-relaxed text-base mb-4'>{section.text}</p>
                 </div>
             ))}
+            <h1 className='sm:text-3xl text-xl font-bold my-4 text-gray-900 mt-8'>Other Articles</h1>
+            <div className='flex flex-wrap -m-4'>
+                <Articles articles={otherArticles} />
+            </div>
+
         </div>
     );
 }
