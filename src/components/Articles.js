@@ -15,7 +15,7 @@ const Articles = ({ articles }) => {
                                 <h3 className='text-lg font-medium text-gray-800 mb-4'>{article.title}</h3>
                             </Link>
                             <p className='leading-relaxed mb-3'>
-                                {article.content[0].text.substring(0, 100)}..
+                                {article.content[0].text.substring(0, 200)}..
 
                             </p>
                             <div className='flex items-center flex-wrap'>
