@@ -1,17 +1,15 @@
 const express = require('express');
 const app = express();
 PORT = process.env.PORT || 5000
-
-const articleInfo = {
-    "Healthy-Diet": {
-        comments:[],
-    }
-    
-};
-
+require('dotenv').config();
+const dbconfig = require('./db');
 
 // Initailize Middleware, function in express.. It parses incomming JSON payload => Alternative Body parser
 app.use(express.json({extended: false}))
+
+app.get('api/articles/:name', (req,res) => {
+    
+})
 
 app.post('/api/articles/:name/add-comments', (req, res)=>{
     const {username, text} = req.body
