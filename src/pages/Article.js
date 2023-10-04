@@ -2,13 +2,14 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import articleContent from './articleContent';
 import Articles from '../components/Articles';
+import NotFound from './NotFound';
 
 function Article() {
     const { name } = useParams();
     const selectedArticle = articleContent.find((article) => article.name === name);
 
     if (!selectedArticle) {
-        return <div>Article not found</div>;
+        return <NotFound />;
     }
     const otherArticles = articleContent.filter(article=>article.name !== name)
     const { title, thumbnail } = selectedArticle;
