@@ -5,6 +5,7 @@ import NotFound from './NotFound';
 
 import Articles from '../components/Articles';
 import CommentsList from '../components/Comment_list';
+import AddCommentForm from '../components/AddComments';
 
 function Article() {
   const { name } = useParams();
@@ -67,6 +68,7 @@ function Article() {
 
       {/* import CommentsList As components */}
       <CommentsList comments={comments} loading={loading} error = {error}/>
+      <AddCommentForm articleName={name} setArticleInfo={selectedArticle}/>
 
       <h1 className='sm:text-3xl text-xl font-bold my-4 text-gray-900 mt-'>Other Articles</h1>
       <div className='flex flex-wrap -m-4'>
