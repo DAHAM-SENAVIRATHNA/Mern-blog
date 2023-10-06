@@ -22,7 +22,7 @@ async function connectToMongoDB() {
   }
 }
 
-// Define a route to retrieve data from MongoDBS
+// Define a route to retrieve data from MongoDB
 app.get('/api/articles/:name', async (req, res) => {
   const articleName = req.params.name;
   const db = client.db('Mern_blog');
@@ -37,11 +37,35 @@ app.get('/api/articles/:name', async (req, res) => {
   }
 });
 
-// Define a route to add comments to an article
-app.post('/api/articles/:name/add-comment', async (req, res) => {
+// Define a route to fetch comments for an article
+app.get('/api/articles/:name/comments', async (req, res) => {
+  const articleName = req.params.name;
+  const db = client.db('Mern_blog');
+  const collection = db.collection('articles');
+
+  try {
+    const article = await collection.findOne({ name: articleName });
+
+    // If the article doesn't exist, return an error
+    if (!article) {
+      return res.status(404).json({ message: 'Article not found' });
+    }
+
+    // Get the comments from the article
+    const comments = article.comments;
+
+    res.status(200).json({ comments });
+  } catch (error) {
+    console.error('Error fetching comments:', error);
+    res.status(500).json({ message: 'Error fetching comments' });
+  }
+});
+
+
+// Define a route to post comments to an article
+app.post('/api/articles/:name/comments', async (req, res) => {
     const articleName = req.params.name;
     const { username, text } = req.body;
-  
     const db = client.db('Mern_blog');
     const collection = db.collection('articles');
   
@@ -60,14 +84,12 @@ app.post('/api/articles/:name/add-comment', async (req, res) => {
       // Update the article in the collection
       await collection.updateOne({ name: articleName }, { $set: article });
   
-      res.status(200).json(article);
+      res.status(200).json({ message: 'Comment posted successfully', article });
     } catch (error) {
-      console.error('Error adding comment to article:', error);
-      res.status(500).json({ message: 'Error adding comment to article' });
+      console.error('Error posting comment to article:', error);
+      res.status(500).json({ message: 'Error posting comment to article' });
     }
-  });
-  
-
+  });  
 
 // Start the server
 app.listen(PORT, () => {
