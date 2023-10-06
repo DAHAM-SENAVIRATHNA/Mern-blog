@@ -13,7 +13,6 @@ app.use(express.json());
 
 // Connect to MongoDB
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
 async function connectToMongoDB() {
   try {
     await client.connect();
@@ -23,10 +22,9 @@ async function connectToMongoDB() {
   }
 }
 
-// Define a route to retrieve data from MongoDB
+// Define a route to retrieve data from MongoDBS
 app.get('/api/articles/:name', async (req, res) => {
   const articleName = req.params.name;
-
   const db = client.db('Mern_blog');
   const collection = db.collection('articles');
 
@@ -38,6 +36,38 @@ app.get('/api/articles/:name', async (req, res) => {
     res.status(500).json({ message: 'Error retrieving data from MongoDB' });
   }
 });
+
+// Define a route to add comments to an article
+app.post('/api/articles/:name/add-comment', async (req, res) => {
+    const articleName = req.params.name;
+    const { username, text } = req.body;
+  
+    const db = client.db('Mern_blog');
+    const collection = db.collection('articles');
+  
+    try {
+      // Find the article by name
+      const article = await collection.findOne({ name: articleName });
+  
+      // If the article doesn't exist, return an error
+      if (!article) {
+        return res.status(404).json({ message: 'Article not found' });
+      }
+  
+      // Add the comment to the article
+      article.comments.push({ username, text });
+  
+      // Update the article in the collection
+      await collection.updateOne({ name: articleName }, { $set: article });
+  
+      res.status(200).json(article);
+    } catch (error) {
+      console.error('Error adding comment to article:', error);
+      res.status(500).json({ message: 'Error adding comment to article' });
+    }
+  });
+  
+
 
 // Start the server
 app.listen(PORT, () => {
