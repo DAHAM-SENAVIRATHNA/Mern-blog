@@ -63,7 +63,7 @@ app.get('/api/articles/:name/comments', async (req, res) => {
 
 
 // Define a route to post comments to an article
-app.post('/api/articles/:name/comments', async (req, res) => {
+app.post('/api/articles/:name/add-comments', async (req, res) => {
     const articleName = req.params.name;
     const { username, text } = req.body;
     const db = client.db('Mern_blog');
